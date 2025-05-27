@@ -13,7 +13,7 @@ namespace ReceiverControls
     /// This implementation provides only minimal logic required
     /// for the sample control to work inside the repository.
     /// </summary>
-    public class FileViewModel : INotifyPropertyChanged
+    public class FileViewModel : INotifyPropertyChanged, IRcModel
     {
         private bool _connected;
         private string _model = string.Empty;
@@ -185,6 +185,46 @@ namespace ReceiverControls
             return Task.FromResult(string.Empty);
         }
 
+        public async Task<OperationResult> StartNewFileAsync(string fileName, char port, int mask, double interval, string msgSet)
+        {
+            StartAction(ReceiverAction.StartFile);
+            var replyPar = await SetCurFileParams(port, mask, interval, msgSet);
+            if (!string.IsNullOrEmpty(replyPar) && !replyPar.Contains("msgs"))
+            {
+                FinishError(replyPar);
+                return OperationResult.Error;
+            }
+
+            if (await CheckFileExists(fileName))
+            {
+                var reply = await SetCurFile(fileName, port);
+                if (!string.IsNullOrEmpty(reply))
+                {
+                    FinishError(reply);
+                    return OperationResult.Error;
+                }
+            }
+            else
+            {
+                var reply = await CreateFile(fileName, port);
+                if (!string.IsNullOrEmpty(reply))
+                {
+                    FinishError(reply);
+                    return OperationResult.Error;
+                }
+            }
+
+            var replyStart = await StartFile(port, interval, msgSet);
+            if (!string.IsNullOrEmpty(replyStart))
+            {
+                FinishError(replyStart);
+                return OperationResult.Error;
+            }
+
+            FinishAction(OperationResult.Sucsess);
+            return OperationResult.Sucsess;
+        }
+
         public Task<string[]> GetCurFileParams(char port)
         {
             return Task.FromResult(new string[3]);
@@ -193,6 +233,20 @@ namespace ReceiverControls
         public Task<string> StoptFile(char port)
         {
             return Task.FromResult(string.Empty);
+        }
+
+        public async Task<OperationResult> StopRecordingAsync(char port)
+        {
+            StartAction(ReceiverAction.StopFile);
+            var reply = await StoptFile(port);
+            if (!string.IsNullOrEmpty(reply))
+            {
+                FinishError(reply);
+                return OperationResult.Error;
+            }
+
+            FinishAction(OperationResult.Sucsess);
+            return OperationResult.Sucsess;
         }
 
         public Task SendFreeEvent(string site, string antId, string height, bool slant)
