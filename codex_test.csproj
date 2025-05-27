@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="FileAction.cs" />
+    <Compile Include="JpsFile.cs" />
+    <Compile Include="FileViewModel.cs" />
+    <Compile Include="ReceiverInfoParams.cs" />
+    <Compile Include="FileViewControl.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="NetInterfaces/NetInterfaces.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="FileViewControl.xaml" />
+  </ItemGroup>
+</Project>
