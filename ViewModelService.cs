@@ -20,5 +20,15 @@ namespace ReceiverControls
             }
             return (T)vm;
         }
+
+        /// <summary>
+        /// Creates or retrieves a <see cref="FileViewModel"/> instance.
+        /// </summary>
+        /// <remarks>
+        /// This helper simply calls <see cref="GetViewModel{T}"/> to ensure that
+        /// only one instance of <see cref="FileViewModel"/> is created and reused
+        /// by the application.
+        /// </remarks>
+        public FileViewModel CreateFileViewModel() => GetViewModel<FileViewModel>();
     }
 }
