@@ -72,7 +72,7 @@ namespace ReceiverControls
         }
         private async Task Execute(string key, FrameworkElement source, object parameter)
         {
-            if (!(DataContext is IRcModel model))
+          if (!(DataContext is IRcModel model))
             {
                 return;
             }
@@ -170,6 +170,7 @@ namespace ReceiverControls
             await model.UpdateInfoParamsAsync();
             await model.RefreshFileList();
         }
+
         private async Task<OperationResult> DeleteAllFiles(IRcModel model)
         {
             if (UIUtilities.ShowConfirmationMessageBox(string.Format(CultureInfo.CurrentCulture,
@@ -192,6 +193,7 @@ namespace ReceiverControls
             model.FinishError(reply);
             return OperationResult.Error;
         }
+
         private async Task<FileAction> GetFileAction(IRcModel model, string fileName)
         {
             if (!await model.CheckFileExists(fileName))
@@ -301,6 +303,7 @@ namespace ReceiverControls
                 f.ProcessingResult = OperationResult.None;
             }
         }
+
         private static string GetDownloadPath(string fileName)
         {
             string name = string.IsNullOrEmpty(Path.GetExtension(fileName)) ? Path.ChangeExtension(fileName, "jps") : fileName;
@@ -337,6 +340,7 @@ namespace ReceiverControls
             }
         }
         private async Task<OperationResult> DeleteFile(IRcModel model, FrameworkElement source)
+
         {
             Debug.WriteLine(@"DeleteFile");
             if (source == null)
@@ -404,10 +408,8 @@ namespace ReceiverControls
 
             CancelDownLoadingFiles(model, jpsFiles.ToArray());
         }
-
         private void CancelDownLoadingFiles(IRcModel model, JpsFile[] jpsFiles) =>
                         model.CancelDownLoadingFiles(jpsFiles);
-
             //  await Task.Delay(2000);
             //   await RefreshFileList();
 
