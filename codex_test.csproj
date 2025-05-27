@@ -7,12 +7,13 @@
   <ItemGroup>
     <Compile Include="FileAction.cs" />
     <Compile Include="JpsFile.cs" />
-    <Compile Include="JpsFileState.cs" />
-    <Compile Include="OperationResult.cs" />
     <Compile Include="FileViewModel.cs" />
-    <Compile Include="ReceiverAction.cs" />
     <Compile Include="ReceiverInfoParams.cs" />
     <Compile Include="FileViewControl.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="NetInterfaces/NetInterfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>

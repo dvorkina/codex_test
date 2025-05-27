@@ -4,6 +4,8 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codex_test", "codex_test.csproj", "{16CF6F05-0C25-49D9-8D1B-15D18A4A3DE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetInterfaces", "NetInterfaces\NetInterfaces.csproj", "{338F79F7-A9AC-4B0B-B0C9-F678DB754946}"
+EndProject
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution
         Debug|Any CPU = Debug|Any CPU
@@ -14,5 +16,9 @@ Global
         {16CF6F05-0C25-49D9-8D1B-15D18A4A3DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
         {16CF6F05-0C25-49D9-8D1B-15D18A4A3DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
         {16CF6F05-0C25-49D9-8D1B-15D18A4A3DE7}.Release|Any CPU.Build.0 = Release|Any CPU
+        {338F79F7-A9AC-4B0B-B0C9-F678DB754946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {338F79F7-A9AC-4B0B-B0C9-F678DB754946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {338F79F7-A9AC-4B0B-B0C9-F678DB754946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {338F79F7-A9AC-4B0B-B0C9-F678DB754946}.Release|Any CPU.Build.0 = Release|Any CPU
     EndGlobalSection
 EndGlobal
