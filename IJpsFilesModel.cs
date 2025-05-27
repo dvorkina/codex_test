@@ -8,7 +8,7 @@ namespace ReceiverControls
     /// <summary>
     /// Interface exposing operations used by <see cref="FileViewControl"/>.
     /// </summary>
-    public interface IJpsFilesModel
+    public interface IRcModel
     {
         ObservableCollection<JpsFile> JpsFiles { get; }
         ReceiverInfoParams InfoParams { get; }
