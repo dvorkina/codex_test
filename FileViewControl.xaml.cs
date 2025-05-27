@@ -73,7 +73,7 @@ namespace ReceiverControls
         }
         private async Task Execute(string key, FrameworkElement source, object parameter)
         {
-            if (!(DataContext is IGnssViewModel model))
+            if (!(DataContext is IJpsFilesModel model))
             {
                 return;
             }
@@ -158,12 +158,12 @@ namespace ReceiverControls
             }
         }
 
-        private async Task UpdateFiles(IGnssViewModel model)
+        private async Task UpdateFiles(IJpsFilesModel model)
         {
             await model.UpdateInfoParamsAsync();
             await model.RefreshFileList();
         }
-        private async Task<OperationResult> DeleteAllFiles(IGnssViewModel model)
+        private async Task<OperationResult> DeleteAllFiles(IJpsFilesModel model)
         {
             if (UIUtilities.ShowConfirmationMessageBox(string.Format(CultureInfo.CurrentCulture,
                       LocalResources.Properties.Resources.FileDeleteConfirmation, model.JpsFiles.Count))
@@ -175,7 +175,7 @@ namespace ReceiverControls
             model.StartAction(ReceiverAction.DeleteFiles);
             return await model.DeleteAllFiles() ? OperationResult.Sucsess : OperationResult.Error;
         }
-        private OperationResult GetActionResult(IGnssViewModel model, string reply)
+        private OperationResult GetActionResult(IJpsFilesModel model, string reply)
         {
             if (string.IsNullOrEmpty(reply))
             {
@@ -185,7 +185,7 @@ namespace ReceiverControls
             model.FinishError(reply);
             return OperationResult.Error;
         }
-        private async Task<OperationResult> StartNewFile(IGnssViewModel model, char port)
+        private async Task<OperationResult> StartNewFile(IJpsFilesModel model, char port)
         {
             string fileName = startfileName.Text;
             FileAction fileAction = string.IsNullOrEmpty(fileName) ? FileAction.Start : await GetFileAction(model, fileName);
@@ -252,7 +252,7 @@ namespace ReceiverControls
         //    await model.UpdateFileList();
             return OperationResult.Sucsess;
         }
-        private async Task<FileAction> GetFileAction(IGnssViewModel model, string fileName)
+        private async Task<FileAction> GetFileAction(IJpsFilesModel model, string fileName)
         {
             if (!await model.CheckFileExists(fileName))
             {
@@ -263,7 +263,7 @@ namespace ReceiverControls
             messageBox.ShowDialog();
             return messageBox.FileAppendResult;
         }
-        private async Task<OperationResult> DeleteFiles(IGnssViewModel model)
+        private async Task<OperationResult> DeleteFiles(IJpsFilesModel model)
         {
             var jpsFiles = dataGrid.SelectedItems.Cast<JpsFile>();
             if (jpsFiles == null || jpsFiles.Count() == 0)
@@ -285,7 +285,7 @@ namespace ReceiverControls
 
             return result ? OperationResult.Sucsess : OperationResult.Error;
         }
-        private async Task DownloadFiles(IGnssViewModel model)
+        private async Task DownloadFiles(IJpsFilesModel model)
         {
             var jpsFiles = dataGrid.SelectedItems.Cast<JpsFile>();
             if (jpsFiles == null || jpsFiles.Count() == 0)
@@ -305,7 +305,7 @@ namespace ReceiverControls
         //    model.SetCashTasks();
             await model.StartDownload();
         }
-        private async Task DownloadFile(IGnssViewModel model, FrameworkElement source)
+        private async Task DownloadFile(IJpsFilesModel model, FrameworkElement source)
         {
             Debug.WriteLine(@"DownloadFile");
             if (source == null)
@@ -320,7 +320,7 @@ namespace ReceiverControls
 
             await DownloadSingleFile(model, jpsFile);
         }
-        private async Task DownloadSingleFile(IGnssViewModel model, JpsFile jpsFile)
+        private async Task DownloadSingleFile(IJpsFilesModel model, JpsFile jpsFile)
         {
             PrepareDownloadFile(jpsFile);
             await model.StartDownload();
@@ -392,7 +392,7 @@ namespace ReceiverControls
             Config.Instance.LastRtFolder = openFolderDilog.SelectedPath;
             return openFolderDilog.SelectedPath;
         }
-        private async Task<OperationResult> DeleteFile(IGnssViewModel model, FrameworkElement source)
+        private async Task<OperationResult> DeleteFile(IJpsFilesModel model, FrameworkElement source)
         {
             Debug.WriteLine(@"DeleteFile");
             if (source == null)
@@ -425,7 +425,7 @@ namespace ReceiverControls
 
         }
 
-        private async Task<OperationResult> DeleteFile(IGnssViewModel model, string fileName)
+        private async Task<OperationResult> DeleteFile(IJpsFilesModel model, string fileName)
         {
             model.StartAction(ReceiverAction.DeleteFiles);
             bool result = await model.DeleteFile(fileName);
@@ -439,7 +439,7 @@ namespace ReceiverControls
             return result ? OperationResult.Sucsess : OperationResult.Error; ;
         }
 
-        private void CancelDownLoading(IGnssViewModel model, FrameworkElement source)
+        private void CancelDownLoading(IJpsFilesModel model, FrameworkElement source)
         {
             Debug.WriteLine(@"CancelDownLoading");
             if (source == null)
@@ -450,7 +450,7 @@ namespace ReceiverControls
             CancelDownLoadingFiles(model, new JpsFile[] { jpsFile });
         }
 
-        private void CancelDownLoadingFiles(IGnssViewModel model)
+        private void CancelDownLoadingFiles(IJpsFilesModel model)
         {
             var jpsFiles = dataGrid.SelectedItems.Cast<JpsFile>();
             if (jpsFiles == null || jpsFiles.Count() == 0)
@@ -461,10 +461,10 @@ namespace ReceiverControls
             CancelDownLoadingFiles(model, jpsFiles.ToArray());
         }
 
-        private void CancelDownLoadingFiles(IGnssViewModel model, JpsFile[] jpsFiles) =>
+        private void CancelDownLoadingFiles(IJpsFilesModel model, JpsFile[] jpsFiles) =>
                         model.CancelDownLoadingFiles(jpsFiles);
 
-        private async Task<OperationResult> StopRec(IGnssViewModel model, char port)
+        private async Task<OperationResult> StopRec(IJpsFilesModel model, char port)
         {
             Debug.WriteLine(@"StopRec");
 
@@ -513,7 +513,7 @@ namespace ReceiverControls
         }
         //internal async Task RefreshFileList()
         //{
-        //    if (!(DataContext is IGnssViewModel model))
+        //    if (!(DataContext is IJpsFilesModel model))
         //        return;
         //    CancelRefresh();
         //    await model.RefreshFileList();
@@ -521,7 +521,7 @@ namespace ReceiverControls
         //}
         internal async Task StartUpdating(TimeSpan period)
         {
-            if (!(DataContext is IGnssViewModel model))
+            if (!(DataContext is IJpsFilesModel model))
             {
                 return;
             }
@@ -581,7 +581,7 @@ namespace ReceiverControls
             //}
         }
 
-        private async Task InitFileRecordParamsFromA(IGnssViewModel model)
+        private async Task InitFileRecordParamsFromA(IJpsFilesModel model)
         {
             var curFilePars = await model.GetCurFileParams('a');
             if(curFilePars == null)
@@ -611,7 +611,7 @@ namespace ReceiverControls
 
             if (string.IsNullOrEmpty(site.Text))
             {
-                if (!(DataContext is IGnssViewModel model))
+                if (!(DataContext is IJpsFilesModel model))
                 {
                     return;
                 }
@@ -621,7 +621,7 @@ namespace ReceiverControls
         }
         private void C1FlexGrid_SelectionChanged(object sender, CellRangeEventArgs e)
         {
-            if (!(DataContext is IGnssViewModel model))
+            if (!(DataContext is IJpsFilesModel model))
             {
                 return;
             }

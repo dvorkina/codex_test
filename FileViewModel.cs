@@ -13,7 +13,7 @@ namespace ReceiverControls
     /// This implementation provides only minimal logic required
     /// for the sample control to work inside the repository.
     /// </summary>
-    public class FileViewModel : INotifyPropertyChanged
+    public class FileViewModel : INotifyPropertyChanged, IJpsFilesModel
     {
         private bool _connected;
         private string _model = string.Empty;
