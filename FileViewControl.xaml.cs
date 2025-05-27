@@ -364,33 +364,37 @@ namespace ReceiverControls
         private static string GetDownloadPath(string fileName)
         {
             string name = string.IsNullOrEmpty(Path.GetExtension(fileName)) ? Path.ChangeExtension(fileName, "jps") : fileName;
-            var saveFileDialog = new SaveFileDialog
+            using (var saveFileDialog = new SaveFileDialog
             {
             //    Filter = LocalResources.Properties.Resources.JpsFileString,//"JPS file|*.jps",
                 Title = LocalResources.Properties.Resources.SavingPath, //"Saving file",
                 InitialDirectory = Config.Instance.LastPathDownload,
                 FileName = name
-            };
-            DialogResult res = saveFileDialog.ShowDialog();
-            if (res != DialogResult.OK)
+            })
             {
-                return string.Empty;
-            }
+                DialogResult res = saveFileDialog.ShowDialog();
+                if (res != DialogResult.OK)
+                {
+                    return string.Empty;
+                }
 
-            Config.Instance.LastPathDownload = Path.GetDirectoryName(saveFileDialog.FileName);
-            return saveFileDialog.FileName;
+                Config.Instance.LastPathDownload = Path.GetDirectoryName(saveFileDialog.FileName);
+                return saveFileDialog.FileName;
+            }
         }
 
         private string GetDownloadFolder()
         {
-            var openFolderDilog = new FolderBrowserDialog { ShowNewFolderButton = true, SelectedPath = Config.Instance.LastRtFolder};
-            //   openFolderDilog.RootFolder = Path.GetDirectoryName(Config.Instance.LastPathDownloadedFile);
-            if (openFolderDilog.ShowDialog() != DialogResult.OK)
+            using (var openFolderDilog = new FolderBrowserDialog { ShowNewFolderButton = true, SelectedPath = Config.Instance.LastRtFolder })
             {
-                return string.Empty;
+                //   openFolderDilog.RootFolder = Path.GetDirectoryName(Config.Instance.LastPathDownloadedFile);
+                if (openFolderDilog.ShowDialog() != DialogResult.OK)
+                {
+                    return string.Empty;
+                }
+                Config.Instance.LastRtFolder = openFolderDilog.SelectedPath;
+                return openFolderDilog.SelectedPath;
             }
-            Config.Instance.LastRtFolder = openFolderDilog.SelectedPath;
-            return openFolderDilog.SelectedPath;
         }
         private async Task<OperationResult> DeleteFile(IGnssViewModel model, FrameworkElement source)
         {
